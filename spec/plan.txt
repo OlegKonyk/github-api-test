@@ -1,0 +1,27 @@
+Users
+
+    https://developer.github.com/v3/users/
+
+    Get public user data
+
+    Get private authenticated user data
+
+    Update the authenticated user
+        {
+            "name": "",
+            "email": "",
+            "blog": "",
+            "company": "",
+            "location": "",
+            "hireable": ,
+            "bio": ""
+            }
+
+
+Repositories
+
+    https://developer.github.com/v3/repos/
+
+    Get Users projects
+
+    Create projects

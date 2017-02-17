@@ -13,6 +13,7 @@
     "superagent": "^3.4.3"
   },
   "dependencies": {
+    "jasmine-pretty-html-reporter": "0.0.1",
     "jasmine-reporters": "^2.2.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
