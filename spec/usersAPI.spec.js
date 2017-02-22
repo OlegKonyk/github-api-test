@@ -59,6 +59,7 @@ describe("Users APIs", function() {
    
     let responce;
     beforeEach(function(done) {
+
       var options = {
         url: `${base_url}/users/testSystemAccount`,
         headers: {
@@ -66,15 +67,17 @@ describe("Users APIs", function() {
         },
         resolveWithFullResponse: true
       };
+
       request.get(options)
         .then(function(res) {
-        responce = res;
-        responce.body = JSON.parse(responce.body);
-        done();
-      }, function(error) {
-        console.log(error)
-        done();
-      });
+          responce = res;
+          responce.body = JSON.parse(responce.body);
+          done();
+        }, function(error) {
+          console.log(error)
+          done();
+        });
+
     });
 
     it("returns status code 200", function() {
@@ -89,6 +92,7 @@ describe("Users APIs", function() {
 
   describe("Basic authentication", function() {
     let responce;
+
     beforeEach(function(done) {
       var options = {
         url: `${base_url}/users/testSystemAccount`,
@@ -98,19 +102,60 @@ describe("Users APIs", function() {
         },
         resolveWithFullResponse: true
       };
+
       request.get(options)
         .then(function(res) {
-        responce = res;
-        responce.body = JSON.parse(responce.body);
-        done();
-      }, function(error) {
-        //console.log(error)
-        done();
+          responce = res;
+          responce.body = JSON.parse(responce.body);
+          done();
+        }, function(error) {
+          //console.log(error)
+          done();
+        });
       });
-    });
 
     it("disk_usage avalible", function() {
       expect(responce.body.disk_usage).not.toBeUndefined();
+    });
+  });
+
+  describe("Update users data", function() {
+    let responce;
+
+    beforeEach(function(done) {
+      var options = {
+        url: `${base_url}/user`,
+        headers: {
+          'User-Agent': 'request',
+          'Authorization': 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64')
+        },
+        json: true,
+        body: {
+          name: "monalisa octocat",
+          //"email": "octocat@github.com",
+          blog: "https://github.com/blog",
+          company: "GitHub",
+          location: "San Francisco",
+          hireable: true,
+          bio: "There once..."
+        },
+        resolveWithFullResponse: true
+      };
+
+      request.patch(options)
+        .then(function(res) {
+          responce = res;
+          responce.body = responce.body;
+          //console.log("||||", res.body)
+          done();
+        }, function(error) {
+          console.log(error)
+          done();
+        });
+      });
+
+    it("disk_usage avalible", function() {
+      expect(responce.body.company).toBe('GitHub');
     });
   });
 
