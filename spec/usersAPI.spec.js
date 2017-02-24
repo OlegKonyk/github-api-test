@@ -1,22 +1,17 @@
 var request = require("request-promise");//require('superagent');//require("request");
-var reporters = require('jasmine-reporters');
-var path = require('path');
-var terminalReporter = new reporters.TerminalReporter({
-            verbosity: 3,
-            color: true/*,
-            showStack: true*/
-        });
-jasmine.getEnv().addReporter(terminalReporter);
-// var junitReporter = new reporters.JUnitXmlReporter({
-//     savePath: '.',
-//     consolidateAll: false
-// });
+// var reporters = require('jasmine-reporters');
+// var path = require('path');
+// var terminalReporter = new reporters.TerminalReporter({
+//             verbosity: 3,
+//             color: true
+//         });
+// jasmine.getEnv().addReporter(terminalReporter);
 
-var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
-var htmlReporter = new HtmlReporter({
-  path: path.join(__dirname,'../HTMLresults')
-})
-jasmine.getEnv().addReporter(htmlReporter);
+// var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
+// var htmlReporter = new HtmlReporter({
+//   path: path.join(__dirname,'../HTMLresults')
+// })
+// jasmine.getEnv().addReporter(htmlReporter);
 
 var base_url = "https://api.github.com"
 
