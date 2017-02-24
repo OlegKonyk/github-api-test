@@ -8,7 +8,7 @@ fdescribe("Repository APIs", function() {
    
     let responce;
     beforeAll(function(done) {
-      lib.requester('/user/repos')
+      lib.get('/user/repos', auth=true)
         .then(function(res) {
           responce = res;
           done();
@@ -16,26 +16,6 @@ fdescribe("Repository APIs", function() {
           console.log(err)
           done();
         });
-      // var options = {
-      //   url: `${base_url}/user/repos`,
-      //   headers: {
-      //     'User-Agent': 'request',
-      //     'Authorization': 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64')
-      //   },
-      //   resolveWithFullResponse: true,
-      //   json: true
-      // };
-
-      // request.get(options)
-      //   .then(function(res) {
-      //     responce = res;
-      //     console.log('>>>>>>>>>>>>>>', lib.common());
-      //     done();
-      //   }, function(error) {
-      //     console.log(error)
-      //     done();
-      //   });
-
     });
 
     it("returns status code 200", function() {

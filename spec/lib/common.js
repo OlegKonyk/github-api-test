@@ -1,18 +1,40 @@
 var request = require("request-promise");
 
-function requester(endpoint) {
-      var base_url = "https://api.github.com"
-      var options = {
-        url: base_url + endpoint,
-        headers: {
-          'User-Agent': 'request',
-          'Authorization': 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64')
-        },
-        resolveWithFullResponse: true,
-        json: true
-      };
+const base_url = "https://api.github.com";
 
-      return request.get(options)
+function get(endpoint, auth) {
+  
+  var options = {
+    url: base_url + endpoint,
+    headers: {
+      'User-Agent': 'request'
+    },
+    resolveWithFullResponse: true,
+    json: true
+  };
+  if(auth) {
+    options.headers['Authorization'] = 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64');
+  }
+
+  return request.get(options)
 };
 
-module.exports = {requester};
+function post(endpoint, auth, body) {
+  var options = {
+    url: base_url + endpoint,
+    headers: {
+      'User-Agent': 'request'
+    },
+    body: body,
+    resolveWithFullResponse: true,
+    json: true
+  };
+  if(auth) {
+    options.headers['Authorization'] = 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64');
+  }
+  
+  return request.post(options)
+};
+
+
+module.exports = {get, post};
