@@ -1,102 +1,114 @@
 var request = require("request-promise");
+var gitHub = require('./lib/common');
 
-var base_url = "https://api.github.com"
-var lib = require('./lib/common')
+var reporters = require('jasmine-reporters');
+var path = require('path');
+var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
 
-fdescribe("Repository APIs", function() {
+
+    // var terminalReporter = new reporters.TerminalReporter({
+    //     verbosity: 3,
+    //     color: true
+    // });
+    // jasmine.getEnv().addReporter(terminalReporter);
+
+    
+    var htmlReporter = new HtmlReporter({
+        path: path.join(__dirname,'../HTMLresults')
+    })
+    jasmine.getEnv().addReporter(htmlReporter);
+
+var reporters = require('jasmine-reporters');
+var path = require('path');
+var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
+
+
+beforeAll(function () {
+    var terminalReporter = new reporters.TerminalReporter({
+        verbosity: 3,
+        color: true
+    });
+    jasmine.getEnv().addReporter(terminalReporter);
+
+    
+    var htmlReporter = new HtmlReporter({
+        path: path.join(__dirname,'../../HTMLresults')
+    })
+    jasmine.getEnv().addReporter(htmlReporter);
+});
+
+
+
+describe("Repository APIs", function() {
   describe("GET repositiries list", function() {
-   
-    let responce;
     beforeAll(function(done) {
-      lib.get('/user/repos', auth=true)
-        .then(function(res) {
-          responce = res;
+      gitHub.get('/user/repos', auth=true)
+        .then(res => {
+          this.responce = res;
           done();
-        }, function(err) {
+        }, err => {
           console.log(err)
           done();
         });
     });
 
     it("returns status code 200", function() {
-      expect(responce.statusCode).toBe(200);
+      expect(this.responce.statusCode).toBe(200);
     });
 
     it("getting one", function() {
-      expect(responce.body.length).toBe(1);
+      expect(this.responce.body.length).toBe(1);
     });
 
   });
 
+  describe("REPO | Creating new repository", function() {
+    beforeAll(function(done) {
+      this.newProject = {
+        name: "Test_Project_7",
+        description: "My cool repo",
+        homepage: "truejs.com"
+      }
+      gitHub.post('/user/repos', auth=true, this.newProject)
+        .then(res => {
+          this.responce = res;
+          done();
+        }, err => {
+          console.log(err)
+          done();
+        });
+    });
 
-//   describe("Basic authentication", function() {
-//     let responce;
+    it("Returns status code 201", function() {
+      expect(this.responce.statusCode).toBe(201);
+    });
 
-//     beforeEach(function(done) {
-//       var options = {
-//         url: `${base_url}/users/testSystemAccount`,
-//         headers: {
-//           'User-Agent': 'request',
-//           'Authorization': 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64')
-//         },
-//         resolveWithFullResponse: true
-//       };
+    it("Properties are matching", function() {
+      expect(this.responce.body.name).toBe(this.newProject.name);
+      expect(this.responce.body.description).toBe(this.newProject.description);
+      expect(this.responce.body.homepage).toBe(this.newProject.homepage);
+    });
 
-//       request.get(options)
-//         .then(function(res) {
-//           responce = res;
-//           responce.body = JSON.parse(responce.body);
-//           done();
-//         }, function(error) {
-//           //console.log(error)
-//           done();
-//         });
-//       });
+  });
 
-//     it("disk_usage avalible", function() {
-//       expect(responce.body.disk_usage).not.toBeUndefined();
-//     });
-//   });
+  fdescribe("REPO | Deleting repository", function() {
+    beforeAll(function(done) {
+      gitHub.remove('/repos/testSystemAccount/Test-Project_3', auth=true)
+        .then(res => {
+          this.responce = res;
+          done();
+        }, err => {
+          console.log(err)
+          done();
+        });
+    });
 
-//   describe("Update users data", function() {
-//     let responce;
+    it("Returns status code 204", function() {
+      expect(this.responce.statusCode).toBe(204);
+    });
 
-//     beforeEach(function(done) {
-//       var options = {
-//         url: `${base_url}/user`,
-//         headers: {
-//           'User-Agent': 'request',
-//           'Authorization': 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64')
-//         },
-//         json: true,
-//         body: {
-//           name: "monalisa octocat",
-//           //"email": "octocat@github.com",
-//           blog: "https://github.com/blog",
-//           company: "GitHub",
-//           location: "San Francisco",
-//           hireable: true,
-//           bio: "There once..."
-//         },
-//         resolveWithFullResponse: true
-//       };
+  });
 
-//       request.patch(options)
-//         .then(function(res) {
-//           responce = res;
-//           responce.body = responce.body;
-//           //console.log("||||", res.body)
-//           done();
-//         }, function(error) {
-//           console.log(error)
-//           done();
-//         });
-//       });
-
-//     it("disk_usage avalible", function() {
-//       expect(responce.body.company).toBe('GitHub');
-//     });
-//   });
 
 });
 

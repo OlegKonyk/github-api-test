@@ -36,5 +36,22 @@ function post(endpoint, auth, body) {
   return request.post(options)
 };
 
+function remove(endpoint, auth, body) {
+  var options = {
+    url: base_url + endpoint,
+    headers: {
+      'User-Agent': 'request'
+    },
+    body: body,
+    resolveWithFullResponse: true,
+    json: true
+  };
+  if(auth) {
+    options.headers['Authorization'] = 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64');
+  }
+  
+  return request.delete(options)
+};
 
-module.exports = {get, post};
+
+module.exports = {get, post, remove};
