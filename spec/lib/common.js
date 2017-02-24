@@ -2,6 +2,11 @@ var request = require("request-promise");
 
 const base_url = "https://api.github.com";
 const accountName = "testSystemAccount";
+const userData = {
+      name: "Jastin Biber",
+      blog: "https://www.jasbib.com",
+      company: "Jastin Biber & Co."
+    }
 
 function get(endpoint, auth) {
   
@@ -54,5 +59,22 @@ function remove(endpoint, auth, body) {
   return request.delete(options)
 };
 
+function patch(endpoint, auth, body) {
+  var options = {
+    url: base_url + endpoint,
+    headers: {
+      'User-Agent': 'request'
+    },
+    body: body,
+    resolveWithFullResponse: true,
+    json: true
+  };
+  if(auth) {
+    options.headers['Authorization'] = 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64');
+  }
+  
+  return request.patch(options)
+};
 
-module.exports = {accountName, get, post, remove};
+
+module.exports = {accountName, userData, get, post, patch, remove};

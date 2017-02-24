@@ -10,21 +10,7 @@ var htmlReporter = new HtmlReporter({
 jasmine.getEnv().addReporter(htmlReporter);
 
 
-// beforeAll(function () {
-//     var terminalReporter = new reporters.TerminalReporter({
-//         verbosity: 3,
-//         color: true
-//     });
-//     jasmine.getEnv().addReporter(terminalReporter);
-
-    
-//     var htmlReporter = new HtmlReporter({
-//         path: path.join(__dirname,'../../HTMLresults')
-//     })
-//     jasmine.getEnv().addReporter(htmlReporter);
-// });
-
-describe("Repository APIs", function() {
+describe("Repository API", function() {
   
   let newProject = {
     name: "Test_Project",
@@ -98,6 +84,5 @@ describe("Repository APIs", function() {
 
 
 });
-
 
 
