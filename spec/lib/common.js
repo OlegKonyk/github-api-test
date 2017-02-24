@@ -1,6 +1,7 @@
 var request = require("request-promise");
 
 const base_url = "https://api.github.com";
+const accountName = "testSystemAccount";
 
 function get(endpoint, auth) {
   
@@ -54,4 +55,4 @@ function remove(endpoint, auth, body) {
 };
 
 
-module.exports = {get, post, remove};
+module.exports = {accountName, get, post, remove};
