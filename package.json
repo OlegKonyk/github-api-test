@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jasmine-pretty-html-reporter": "^0.1.7",
+    "jasmine-reporters": "^2.2.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1"
   }
