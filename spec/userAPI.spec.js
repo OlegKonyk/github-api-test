@@ -1,14 +1,13 @@
 var request = require('request-promise');
 
+var userName = "testSystemAccount"
+
 describe('Users API', function() {
-    it('returns status code 200', function(done) {
-        /* We want to call https://api.github.com/users/YOUR_USER_NAME
-           and verify that response code has status 200.
-           In order to do this we need to make request.
-           npm install --save request request-promise
-        */
+
+    var response;
+    beforeAll(function(done) {
         var options = {
-            uri: 'https://api.github.com/users/testSystemAccount',
+            uri: 'https://api.github.com/users/' + userName,
             headers: {
                 'User-Agent': 'request'
             },
@@ -17,12 +16,19 @@ describe('Users API', function() {
         };
 
         request.get(options)
-            .then(function(response) {
-                expect(response.statusCode).toBe(200);
+            .then(function(res) {
+                response = res;
                 done();
             }, function(err) {
-                expect(true).toBe(false); // faling test
                 done();
             });
     })
-})
+
+    it('returns status code 200', function() {
+        expect(response.statusCode).toBe(200);
+    });
+
+    it("login name matches", function() {
+      expect(response.body.login).toBe(userName);
+    });
+});
