@@ -1,20 +1,15 @@
 {
-  "name": "github-api-test",
+  "name": "git-apis",
   "version": "1.0.0",
-  "description": "Sample project for testing GitHub public APIs",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node spec"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "jasmine-node": "^1.14.5",
-    "superagent": "^3.4.3"
-  },
   "dependencies": {
-    "jasmine-pretty-html-reporter": "0.0.1",
-    "jasmine-reporters": "^2.2.0",
     "request": "^2.79.0",
-    "request-promise": "^4.1.1"  }
+    "request-promise": "^4.1.1"
+  }
 }
