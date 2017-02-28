@@ -1,7 +1,7 @@
 var request = require("request-promise");
 
 const base_url = "https://api.github.com";
-const accountName = "testSystemAccount";
+const userName = "testSystemAccount";
 const userData = {
       name: "Jastin Biber",
       blog: "https://www.jasbib.com",
@@ -77,4 +77,4 @@ function patch(endpoint, auth, body) {
 };
 
 
-module.exports = {accountName, userData, get, post, patch, remove};
+module.exports = {userName, userData, get, post, patch, remove};
