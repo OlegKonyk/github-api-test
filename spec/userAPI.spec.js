@@ -17,9 +17,6 @@ var htmlReporter = new HtmlReporter({
 jasmine.getEnv().addReporter(htmlReporter);
 
 
-
-
-
 describe('Users API', function() {
 
     describe("GET user by user name (non auth)", function() {
@@ -64,5 +61,53 @@ describe('Users API', function() {
         it("disk_usage avalible", function() {
             expect(response.body.disk_usage).not.toBeUndefined();
         });
+    });
+
+    describe("Update users data", function() {
+        
+        var updateData = {
+            name: "John Bon Jovi",
+            blog: "https://www.bonjovi.com",
+            company: "BonJovi"
+        };
+
+        beforeAll(function(done) {
+        gitHub.patch(`/user`, auth=true, updateData)
+            .then(res => {
+                this.response = res;
+                    done();
+                }, err => {
+                    console.log(err)
+                done();
+            });
+        });
+
+        it("returns status code 200", function() {
+            expect(this.response.statusCode).toBe(200);
+        });
+
+        it("name is matching", function() {
+            expect(this.response.body.name).toBe(updateData.name);
+        });
+
+        it("blog is matching", function() {
+            expect(this.response.body.blog).toBe(updateData.blog);
+        });
+
+        it("company is matching", function() {
+            expect(this.response.body.company).toBe(updateData.company);
+        });
+
+        afterAll(function(done) {
+            gitHub.patch(`/user`, auth=true, gitHub.userData)
+                .then(res => {
+                    this.response = res;
+                    done();
+                }, err => {
+                    console.log(err)
+                    done();
+                });
+            });
+
     });
 });
