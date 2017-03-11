@@ -1,8 +1,5 @@
 var request = require('request-promise');
 
-/* In order to attach reporters we need
-   npm install --save jasmine-reporters jasmine-pretty-html-reporter
-*/
 var reporters = require('jasmine-reporters');
 var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
 var path = require('path');
@@ -20,33 +17,72 @@ jasmine.getEnv().addReporter(htmlReporter);
 
 var userName = "testSystemAccount"
 
+
+
 describe('Users API', function() {
 
-    var response;
-    beforeAll(function(done) {
-        var options = {
-            uri: 'https://api.github.com/users/' + userName,
-            headers: {
-                'User-Agent': 'request'
-            },
-            resolveWithFullResponse: true,
-            json: true
-        };
+    describe("GET user by user name (non auth)", function() {
+        // doing nested describe to get readable structure
+        var response;
+        beforeAll(function(done) {
+            var options = {
+                uri: 'https://api.github.com/users/' + userName,
+                headers: {
+                    'User-Agent': 'request'
+                },
+                resolveWithFullResponse: true,
+                json: true
+            };
 
-        request.get(options)
-            .then(function(res) {
-                response = res;
-                done();
-            }, function(err) {
-                done();
-            });
-    })
+            request.get(options)
+                .then(function(res) {
+                    response = res;
+                    done();
+                }, function(err) {
+                    console.log(err);
+                    done();
+                });
+        })
 
-    it('returns status code 200', function() {
-        expect(response.statusCode).toBe(200);
+        it('returns status code 200', function() {
+            expect(response.statusCode).toBe(200);
+        });
+
+        it("login name matches", function() {
+            expect(response.body.login).toBe(userName);
+        });
     });
 
-    it("login name matches", function() {
-      expect(response.body.login).toBe(userName);
+    describe("GET User data for authenticated user", function() {
+        var response;
+        beforeAll(function(done) {
+            var options = {
+                uri: 'https://api.github.com/user',
+                headers: {
+                    'User-Agent': 'request',
+                    'Authorization': 'Basic ' + new Buffer('testSystemAccount' + ':' + 'test2017').toString('base64')
+
+                },
+                resolveWithFullResponse: true,
+                json: true
+            };
+
+            request.get(options)
+                .then(function(res) {
+                    response = res;
+                    done();
+                }, function(err) {
+                    console.log(err);
+                    done();
+                });
+        })
+
+        it("returns status code 200", function() {
+            expect(response.statusCode).toBe(200);
+        });
+
+        it("disk_usage avalible", function() {
+            expect(response.body.disk_usage).not.toBeUndefined();
+        });
     });
 });
